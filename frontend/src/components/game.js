@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const Game = () => {
     return (
         <div>
@@ -10,7 +11,7 @@ const Game = () => {
                 <img/>
                 <img/>
             </div>
-            
+
         </div>
     )
 }
