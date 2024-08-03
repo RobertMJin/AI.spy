@@ -1,11 +1,14 @@
-import React from 'react';
+import React from 'react'
 
-const ImageChoice = ({imageNum, classification}) => {
+const ImageChoice = ({imageNum, source, isAI}) => {
+
     return (
-        <div>
+        <div className='bg-blue-500 m-8'>
             <p>Image {imageNum}</p>
-            <img/>
-            <p>You think this is made by {classification}</p>
+            <img src={source} alt="" />
+            {isAI ? <p>You think this is made by AI.</p> : null}
         </div>
     )
 }
+
+export default ImageChoice
