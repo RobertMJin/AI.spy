@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import ImageChoice from './imageChoice';
+import ImageChoice from '../components/game/imageChoice';
 
 const Game = () => {
     const [selectedImg, setSelectedImg] = useState(0)

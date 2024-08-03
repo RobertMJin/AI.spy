@@ -1,14 +1,15 @@
 import './App.css';
 import util from './components/modelStuff.js'
-
-import Navbar from './components/navbar.js';
+import Navbar from './components/navbar/navbar.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Home from './components/home.js'
-import Detect from './components/detect.js'
-import Game from './components/game.js'
-import Report from './components/report.js';
-import Lobby from './components/lobby.js';
+
+import Profile from './components/game/profile.js'
+import Home from './pages/home.js'
+import Detect from './pages/detect.js'
+import Game from './pages/game.js'
+import Report from './pages/report.js';
+import Lobby from './pages/lobby.js';
 
 const {modelInitializer, ModelDisplay} = util;
 
@@ -21,14 +22,24 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/detect" element={<Detect />} />
-          <Route path="/game" element={<Game />} />
-          <Route path="/report" element={<Report />} />
-          <Route path='/lobby' element={<Lobby />} />
+          <Route
+            path="/"
+            element={<Home />} />
+          <Route
+            path="/detect"
+            element={<Detect />} />
+          <Route
+            path="/game"
+            element={<Game />} />
+          <Route
+            path="/report"
+            element={<Report />}/>
+          <Route
+            path='/lobby'
+            element={<Lobby />} />
         </Routes>
       </Router>
-      <ModelData />
+      {/* <ModelData /> */}
     </div>
   );
 }
