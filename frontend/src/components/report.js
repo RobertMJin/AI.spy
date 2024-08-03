@@ -7,7 +7,7 @@ import arrow from '../upload.png'
 export default function Report() {
     const [ image, setImage ] = useState(null);
     const hiddenInput = useRef(null);
-    const [ sus, setSus ] = useState(true);
+    // const [ sus, setSus ] = useState(true);
 
     return (
         <div
@@ -61,10 +61,6 @@ export default function Report() {
                     }
                     onClick={() => setImage(null)}
                 >Remove</div>
-                <div className = "absolute -right-24 flex flex-row justify-items-center items-center">
-                    <input type="checkbox" checked={sus} onChange={() => setSus(!sus)}></input>
-                    <p className="text-white">AI-Generated</p>
-                </div>
             </div>
         </div>
     )
