@@ -6,8 +6,8 @@ const LobbyProfile = ({isHost}) => {
     const [username, setUsername] = useState("test")
 
     return (
-        <div className="flex relative w-64 h-24, border-8 items-center p-2 m-2">
-            <div className="flex justify-center items-center h-16 w-16 rounded-full border-4">
+        <div className="flex relative w-[256px] h-[80px], bg-profile-background bg-contain bg-center items-center p-2 m-2">
+            <div className="flex justify-center items-center h-16 w-16 rounded-full border-4 border-black">
                 <img src={pfp} className="h-full" />
             </div>
             <h1 className="ml-2">{username}</h1>

@@ -24,8 +24,8 @@ export default function Report() {
             <div
                 className={
                     image
-                    ? "text-slate-500 bg-slate-300 p-10 rounded m-10 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400" 
-                    : "text-slate-500 bg-slate-300 p-10 rounded m-10 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400 cursor-pointer"
+                    ? "text-slate-500 bg-slate-300 rounded m-10 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400" 
+                    : "text-slate-500 bg-slate-300 rounded m-10 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400 cursor-pointer"
                 }
                 onClick={() => hiddenInput.current.click()}
             >

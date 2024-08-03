@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'canvas-background' : "url('https://www.thesprucecrafts.com/thmb/doYzRzmTVm-2ANCm0gtbHu0GaPU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/9-56a810973df78cf7729bd058.png')"
+        'canvas-background' : "url('https://i.imgur.com/LvfONyA.gif')",
+        'profile-background' : "url('https://i.imgur.com/9yW0Mwc.png')"
       },
     },
   },

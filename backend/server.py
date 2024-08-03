@@ -4,7 +4,8 @@ from tensorflow import keras
 from keras import models
 import numpy as np
 import os
-
+from flask_cors import CORS
+from flask_socketio import SocketIO, emit
 #--------------------------------------------------------COMMANDS FOR WINDOWS
 #deactivate to exit env
 #.\env\scripts\activate to reenter env
@@ -15,6 +16,9 @@ import os
 #--------------------------------------------------------
 
 app = Flask(__name__)
+CORS(app)
+app.config['Key'] = 'Key'
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 model = None
 data_dir = '.\\modelbase\\data'
@@ -29,7 +33,6 @@ def load_model():
 @app.route('/') #route decorator
 def index():
     return 'Hello World'
-
 
 # summary: initializes the binary classification model already stored.
 @app.route('/initialize', methods=['POST'])
@@ -59,11 +62,17 @@ def predict():
         return jsonify({"prediction": prediction.tolist()}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+#summary: socket io connection event and pass off user info to all connected clients
+@socketio.on("connect")
+def handle_connect(data):
+    emit("usersconnected", data, broadcast=True)
+
+#summary: socket io disconnect event
+@socketio.on("disconnect")
+def handle_disconnect(data):
+    emit("usersdisconnected", data , broadcast=True)
     
-
-
-
-
-
+    
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
