@@ -70,11 +70,6 @@ const ModelDisplay = ({isLoading, items, loadData}) => {
                     </td>
                 </tr>
             ))}
-            <tr>
-                <td colSpan="2">
-                    <button onClick={loadData}>Reload</button>
-                </td>
-            </tr>
         </table>
     )
 }

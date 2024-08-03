@@ -2,39 +2,70 @@ import React from "react";
 import { useState } from "react";
 import { useRef } from "react";
 
+import arrow from '../upload.png'
+
 export default function Report() {
-    const { image, setImage } = useState(null);
+    const [ image, setImage ] = useState(null);
     const hiddenInput = useRef(null);
+    const [ sus, setSus ] = useState(true);
 
     return (
-        <div className="flex-col">
+        <div
+            className="w-screen h-screen bg-gray-700 flex flex-col items-center"
+            onPaste={(e) => {
+                if (e.clipboardData.files.length) {
+                    setImage(e.clipboardData.files[0])
+                }
+            }}>
             <h1
-                className="text-4xl"
+                className="text-white mt-10 text-4xl"
             >Spotted AI Art while scrolling?</h1>
-            <p>Upload it here and we'll feed it to our model.</p>
+            <p className="text-white">Upload it here and we'll feed it to our model.</p>
             <div
-                className="flex-col w-50 h-50 border-slate-500 cursor-pointer"
-                onPaste={(e) => {
-                    if (image !== null && e.clipboardData.files.length) {
-                        setImage(e.clipboardData.files[0])
-                    }
-                }}
+                className={
+                    image
+                    ? "text-slate-500 bg-slate-300 p-10 rounded m-10 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400" 
+                    : "text-slate-500 bg-slate-300 p-10 rounded m-10 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400 cursor-pointer"
+                }
                 onClick={() => hiddenInput.current.click()}
             >
-                Paste or Upload Image
+                {image ? (<img alt="" className="object-contain" src={URL.createObjectURL(image)}></img>)
+                : ( <div className="relative flex flex-col justify-items-center items-center">
+                        <img src={arrow} className="size-20"></img>
+                        <p>Paste or Upload Image</p>
+                    </div>)}
             </div>
             <input
-                style={{display: "none"}}
+                className="hidden"
                 ref={hiddenInput}
                 type="file"
                 accept="image\png, image\jpeg, image\jpg, image\bmp"
-                onChange={e => setImage(e.target.files[0])}
+                onChange={(e) => {
+                    setImage(e.target.files[0])
+                    e.target.value = ''
+                }}
             >
             </input>
-            <button
-                style={image ? {cursor: "pointer"} : {cursor: "not-allowed"}}
-                onClick={() => setImage(null)}
-            >Remove</button>
+            <div className="relative flex flex-row justify-items-center items-center">
+                <div
+                    disabled={image == null}
+                    class={image ? "basis-1/2 text-white bg-blue-400 p-3 mx-3 rounded hover:cursor-pointer hover:bg-blue-500" :
+                        "text-white bg-blue-400 p-3 mx-3 rounded"
+                    }
+                    onClick={() => setImage(null)}
+                >Submit</div>
+                <div
+                    disabled={image == null}
+                    class={image ? "basis-1/2 text-white bg-red-400 p-3 mx-3 rounded hover:cursor-pointer hover:bg-red-500" :
+                        "text-white bg-red-400 p-3 mx-3 rounded"
+                    }
+                    onClick={() => setImage(null)}
+                >Remove</div>
+                <div className = "absolute -right-24 flex flex-row justify-items-center items-center">
+                    <input type="checkbox" checked={sus} onChange={() => setSus(!sus)}></input>
+                    <p className="text-white">AI-Generated</p>
+                </div>
+            </div>
         </div>
     )
 }
