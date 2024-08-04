@@ -10,7 +10,8 @@ module.exports = {
         'profile-background' : "url('https://i.imgur.com/9yW0Mwc.png')"
       },
       fontFamily: {
-        compactRound: ['"Compact Round"', 'compactRound']
+        compactRound: ['"Compact Round"', 'compactRound'],
+        compactRoundSemibold: ['"Compact Round Semibold"', 'compactRoundSemibold']
       }
     },
   },
