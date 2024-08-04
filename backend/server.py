@@ -341,6 +341,34 @@ def saveImageToMongo(file_path, collection):
             'data': Binary(data)
         })
 
+#summary: for uploading single image ADD TO ACTUAL APP
+@app.route('/uploadSingleImage', methods=['POST'])
+def upload_single_image():
+    try:
+        # Ensure the image folder exists
+        if not os.path.exists(image_folder):
+            return jsonify({"error": "Image folder does not exist."}), 400
+        
+        if(image_folder == '..\\data\\artificial' ):
+            neededCollection = collectionAi
+        elif(image_folder == '..\\data\\real' ):
+            neededCollection = collectionReal
+        else:
+            neededCollection = collectionTest
+
+        # Iterate over files in the folder
+        for filename in os.listdir(image_folder):
+            file_path = os.path.join(image_folder, filename)
+
+            # Only process files, ignore directories
+            if os.path.isfile(file_path):
+                saveImageToMongo(file_path, neededCollection)  #****CHANGE THIS COLLECTION DYNAMICALLY.
+
+        return jsonify({"message": "All images have been uploaded to MongoDB."}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 #summary: endpoint to upload images to mongoDB  --NOTE: ONLY USE FOR INITIALIZING COLLECTIONS WITH DATASET. NOT FOR UPLOADING SINGLE FILES.
 @app.route('/uploadImages', methods=['POST'])
 def upload_images():
@@ -349,6 +377,9 @@ def upload_images():
         if not os.path.exists(image_folder):
             return jsonify({"error": "Image folder does not exist."}), 400
         
+        #delete all existing documents in the collection TODO CHANGE
+        neededCollection.delete_many({})
+
         if(image_folder == '.\\modelbase\\data\\artificial' ):
             neededCollection = collectionAi
         elif(image_folder == '.\\modelbase\\data\\real' ):

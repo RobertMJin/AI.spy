@@ -13,6 +13,16 @@
   }
 }
 
+@font-face {
+  font-family: 'compactRound'; 
+  src: url('./assets/SF-Pro-Rounded-Bold.otf'); 
+}
+
+@font-face {
+  font-family: 'compactRoundSemibold'; 
+  src: url('./assets/SF-Pro-Rounded-Semibold.otf'); 
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

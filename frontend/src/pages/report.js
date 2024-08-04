@@ -2,37 +2,31 @@ import React from "react";
 import { useState } from "react";
 import { useRef } from "react";
 
-import arrow from '../upload.png'
+import arrow from '../assets/upload.png'
 
 export default function Report() {
     const [ image, setImage ] = useState(null);
     const hiddenInput = useRef(null);
-    // const [ sus, setSus ] = useState(true);
 
     return (
         <div
-            className="w-screen h-screen bg-gray-700 flex flex-col items-center"
+            className="bg-gradient-to-b from-black to-cyan-900 w-full h-screen flex flex-col items-center"
             onPaste={(e) => {
                 if (e.clipboardData.files.length) {
                     setImage(e.clipboardData.files[0])
                 }
             }}>
             <h1
-                className="text-white mt-10 text-4xl"
-            >Spotted AI Art while scrolling?</h1>
-            <p className="text-white">Upload it here and we'll feed it to our model.</p>
+                className="font-compactRound text-white mt-10 mb-5 text-8xl"
+            >Spotted some AI Art?</h1>
+            <p className="text-white mb-5">Upload the image here and help train our bot against future infractions.</p>
             <div
-                className={
-                    image
-                    ? "text-slate-500 bg-slate-300 rounded m-10 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400" 
-                    : "text-slate-500 bg-slate-300 rounded m-10 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400 cursor-pointer"
-                }
-                onClick={() => hiddenInput.current.click()}
-            >
-                {image ? (<img alt="" className="object-contain" src={URL.createObjectURL(image)}></img>)
+                className="text-slate-900 bg-slate-200 m-10 rounded-2xl border-cyan-900 border-[2rem] m-5 w-2/4 h-2/4 flex flex-col justify-items-center items-center cursor-pointer hover:scale-110"
+                onClick={() => hiddenInput.current.click()}>
+                {image ? (<img alt="" className="relative w-full h-full object-contain" src={URL.createObjectURL(image)}></img>)
                 : ( <div className="relative flex flex-col justify-items-center items-center">
-                        <img src={arrow} className="size-20"></img>
-                        <p>Paste or Upload Image</p>
+                        <img src={arrow} className="w-1/2 m-5 hover:scale-110"></img>
+                        <h1 className="text-4xl font-compactRound ">Paste or Upload Image</h1>
                     </div>)}
             </div>
             <input
@@ -46,22 +40,13 @@ export default function Report() {
                 }}
             >
             </input>
-            <div className="relative flex flex-row justify-items-center items-center">
-                <div
-                    disabled={image == null}
-                    class={image ? "basis-1/2 text-white bg-blue-400 p-3 mx-3 rounded hover:cursor-pointer hover:bg-blue-500" :
-                        "text-white bg-blue-400 p-3 mx-3 rounded"
-                    }
-                    onClick={() => setImage(null)}
-                >Submit</div>
-                <div
-                    disabled={image == null}
-                    class={image ? "basis-1/2 text-white bg-red-400 p-3 mx-3 rounded hover:cursor-pointer hover:bg-red-500" :
-                        "text-white bg-red-400 p-3 mx-3 rounded"
-                    }
-                    onClick={() => setImage(null)}
-                >Remove</div>
-            </div>
+            <div
+                disabled={image == null}
+                class={image ? "font-compactRound m-5 text-black text-4xl w-1/4 h-20 bg-blue-200 p-4 rounded hover:cursor-pointer hover:scale-110" :
+                    "font-compactRound m-5 text-black text-4xl w-1/4 h-20 bg-blue-200 p-4 mr-3 rounded"
+                }
+                onClick={() => setImage(null)}
+            >Submit</div>
         </div>
     )
 }
