@@ -13,6 +13,7 @@ const Lobby = () => {
     const [isConnected, setIsConnected] = useState(false);
     const [userInfo, setUserInfo] = useState(
       {name: "Guest", 
+        picture: "",
       email: null});
     const [userID, setUserID] = useState('fake_id');
     const socket = io("127.0.0.1:5000");
@@ -46,7 +47,8 @@ const Lobby = () => {
       if (isAuthenticated) {
         setUserInfo({
           name: user.name,
-          email: user.email
+          email: user.email,
+          picture: user.picture? user.picture : ""
         });
 
         console.log("user info: ", userInfo + " with id: " + userID);
@@ -100,7 +102,7 @@ const Lobby = () => {
     return (
         <div className="flex bg-gray-700">
             <div className="flex flex-col items-center mx-16 my-32 w-[40vw]">
-                <Profile user={userInfo} connectedUsers={connectedUsers}/>
+                <Profile user={{userInfo, userID}} connectedUsers={connectedUsers}/>
             </div>
             <div className="flex flex-col justify-center items-center w-[60vw] mx-16 my-16 p-8">
                 <Canvas canvasSize={640} />

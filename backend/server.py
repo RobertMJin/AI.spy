@@ -12,6 +12,7 @@ import cv2                  #opencv computer vision stuff
 import imghdr               #determines the type of image
 from matplotlib import pyplot as plt
 from keras import Sequential, layers, metrics, models
+from dotenv import load_dotenv
 
 #--------------------------------------------------------COMMANDS FOR WINDOWS
 #deactivate to exit env
@@ -25,7 +26,7 @@ from keras import Sequential, layers, metrics, models
 app = Flask(__name__)
 
 model = None
-data_dir = '.\\modelbase\\data'
+data_dir = './modelbase/data'
 image_size = (256, 256)
 
 CORS(app)
@@ -33,7 +34,9 @@ app.config['SECRET_KEY'] = 'Key'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 #establishing mongodb connection
-mongo_client = MongoClient('mongodb://localhost:27017/')    #default connection string, shouldn't change
+load_dotenv()
+mongodb_uri = os.getenv('MONGO_URI')
+mongo_client = MongoClient(mongodb_uri)    #default connection string, shouldn't change
 db = mongo_client['Images'] #replace with database name
 collectionAi = db['aiImages']   #replace with collection name, mongodb's equivalent of a table
 collectionReal = db['realImages'] 
@@ -42,12 +45,12 @@ collectionTest = db['testImages']
 
 
 # model = None
-# data_dir = '.\\modelbase\\data'
+# data_dir = './modelbase/data'
 # image_size = (256, 256)
 
 def load_model():
     global model
-    model = models.load_model('.\\modelbase\\models\\realAiModel.h5') #make sure the relative path is correct, just clicking relative path doesnt work
+    model = models.load_model('./modelbase/models/realAiModel.h5') #make sure the relative path is correct, just clicking relative path doesnt work
     print("Model loaded successfully!")
 
 @app.route('/') #route decorator
@@ -111,9 +114,9 @@ def remakeDirAndSaveImages(directory_path):
         #reset given directory
         reset_directory(directory_path)
 
-    if(directory_path == '.\\modelbase\\data\\artificial' ):
+    if(directory_path == './modelbase/data/artificial' ):
         neededCollection = collectionAi
-    elif(directory_path == '.\\modelbase\\data\\real' ):
+    elif(directory_path == './modelbase/data/real' ):
         neededCollection = collectionReal
     else:
         neededCollection = collectionTest
@@ -157,7 +160,7 @@ def modelRetrainer():
         tf.config.experimental.set_memory_growth(gpu, True)
     print(len(gpus)) #no nvidia gpu unfortunately....
 
-    data_dir = '.\\modelbase\\data'                               #directory name
+    data_dir = './modelbase/data'                               #directory name
     image_exts = ['jpeg', 'jpg', 'bmp', 'png']
 
     #delete dodgy files
@@ -227,7 +230,7 @@ def modelRetrainer():
     model.summary()                                                                     #accuracy will tell us how well we are classifying as 0 or 1
 
     #------ TRAINING THE MODEL
-    logdir='.\\modelbase\\logs'           #path to log directory
+    logdir='./modelbase/logs'           #path to log directory
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=logdir)   #saves model at checkpoint, callback is not a callback function, in tensorflow its an object that can perform specific actions at various stages of training
                                                                             # at start or end of an epoch, before or after a single batch is processed, when training begins or ends
                                                                             #the checkpoint is important, because if you end up overtraining / overfitting and the accuracy worsens, you can return to previous checkpoint
@@ -267,7 +270,7 @@ def modelRetrainer():
     print(f'Precision:{pre.result().numpy()}, Recall:{re.result().numpy()}, Accuracy:{acc.result().numpy()}')
 
 
-    img = cv2.imread('.\\modelbase\\aiart1.jpg')        #TEST IF YOU HAVE FILE
+    img = cv2.imread('./modelbase/aiart1.jpg')        #TEST IF YOU HAVE FILE
     # plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))              plt is not built for backend since it has GUI
     # plt.show() 
 
@@ -283,8 +286,8 @@ def modelRetrainer():
     #on startup, do a get request that launches this code. Then, each get req can do a model.predict
 
 
-    model.save(os.path.join('.\\modelbase\\models', 'realAiModel.h5'))  #h5 is a serialization file format
-    new_model = models.load_model(os.path.join('.\\modelbase\\models', 'realAiModel.h5'))
+    model.save(os.path.join('./modelbase/models', 'realAiModel.h5'))  #h5 is a serialization file format
+    new_model = models.load_model(os.path.join('./modelbase/models', 'realAiModel.h5'))
 
     print("xd")
     xhat = model.predict(np.expand_dims(resize/255, 0))     #the 
@@ -295,7 +298,7 @@ def modelRetrainer():
 def testremake():
     """testing deleting directory"""
 
-    test_dir = '.\\modelbase\\data\\artificial'
+    test_dir = './modelbase/data/artificial'
 
     remakeDirAndSaveImages(test_dir)
     return jsonify({"message": "Images successfully remade and saved."}), 200
@@ -304,8 +307,8 @@ def testremake():
 @app.route('/retrain', methods=['POST'])
 def retrain():
     #load the images into a new directory to use to train
-    ai_dir = '.\\modelbase\\data\\artificial'  # Replace with your desired output directory
-    real_dir = '.\\modelbase\\data\\real'
+    ai_dir = './modelbase/data/artificial'  # Replace with your desired output directory
+    real_dir = './modelbase/data/real'
 
     #-----REMAKING AI DIRECTORY AND SAVING IMAGES
     remakeDirAndSaveImages(ai_dir)
@@ -316,7 +319,7 @@ def retrain():
     return jsonify({"message": "Model successfully retrained."}), 200
 
 
-image_folder = '.\\modelbase\\data\\real'
+image_folder = './modelbase/data/real'
 
 #different file extentions means that we need to check before saving the image to mongoDB
 def getContentType(file_path):
@@ -349,9 +352,9 @@ def upload_single_image():
         if not os.path.exists(image_folder):
             return jsonify({"error": "Image folder does not exist."}), 400
         
-        if(image_folder == '..\\data\\artificial' ):
+        if(image_folder == '../data/artificial' ):
             neededCollection = collectionAi
-        elif(image_folder == '..\\data\\real' ):
+        elif(image_folder == '../data/real' ):
             neededCollection = collectionReal
         else:
             neededCollection = collectionTest
@@ -380,9 +383,9 @@ def upload_images():
         #delete all existing documents in the collection TODO CHANGE
         neededCollection.delete_many({})
 
-        if(image_folder == '.\\modelbase\\data\\artificial' ):
+        if(image_folder == './modelbase/data/artificial' ):
             neededCollection = collectionAi
-        elif(image_folder == '.\\modelbase\\data\\real' ):
+        elif(image_folder == './modelbase/data/real' ):
             neededCollection = collectionReal
         else:
             neededCollection = collectionTest
