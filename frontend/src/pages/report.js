@@ -18,7 +18,7 @@ export default function Report() {
             }}>
             <h1
                 className="font-compactRound text-white mt-10 mb-5 text-8xl"
-            >Spotted some AI Art??</h1>
+            >Spotted some AI Art?</h1>
             <p className="text-white mb-5">Upload the image here and help train our bot against future infractions.</p>
             <div
                 className="text-slate-900 bg-slate-200 m-10 rounded-2xl border-cyan-900 border-[2rem] m-5 w-2/4 h-2/4 flex flex-col justify-items-center items-center cursor-pointer hover:scale-110"
@@ -46,7 +46,7 @@ export default function Report() {
                     "font-compactRound m-5 text-black text-4xl w-1/4 h-20 bg-blue-200 p-4 mr-3 rounded"
                 }
                 onClick={() => setImage(null)}
-            >Suc\bmit</div>
+            >Submit</div>
         </div>
     )
 }
