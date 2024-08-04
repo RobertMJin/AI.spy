@@ -10,7 +10,7 @@ export default function Detect() {
 
     return (
         <div
-            className="bg-gray-700 flex flex-col items-center"
+            className="bg-slate-100 w-full h-screen flex flex-col items-center"
             onPaste={(e) => {
                 if (e.clipboardData.files.length) {
                     setImage(e.clipboardData.files[0])
@@ -23,8 +23,8 @@ export default function Detect() {
             <div
                 className={
                     image
-                    ? "text-slate-500 bg-slate-300 rounded m-5 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400" 
-                    : "text-slate-500 bg-slate-300 rounded m-5 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400 cursor-pointer"
+                    ? "bg-slate-100 rounded m-5 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400" 
+                    : "bg-slate-100 rounded m-5 flex flex-col justify-items-center items-center border-solid border-2 border-slate-400 cursor-pointer"
                 }
                 onClick={() => hiddenInput.current.click()}
             >

@@ -28,7 +28,7 @@ model = None
 data_dir = '.\\modelbase\\data'
 image_size = (256, 256)
 
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 app.config['SECRET_KEY'] = 'Key'
 socketio = SocketIO(app, cors_allowed_origins="*")
 

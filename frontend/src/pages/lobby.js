@@ -10,12 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Lobby = () => {
     const [numPlayers, setNumPlayers] = useState(1);
     const [isReady, setIsReady] = useState(false);
-    const socket = io("http://localhost:5000", {
-        withCredentials: true,
-        extraHeaders: {
-          "my-custom-header": "abcd"
-        }
-      });
+    const socket = io("http://localhost:5000");
     
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [connectedUsers, setConnectedUsers] = useState([]);
@@ -46,7 +41,7 @@ const Lobby = () => {
             console.log("disconnected from socket")
         };
     }, []);
-
+    
     useEffect(() => {
         if (isAuthenticated) {
           socket.emit("userConnect", userInfo);
