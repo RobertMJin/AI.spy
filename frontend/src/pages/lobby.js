@@ -4,35 +4,36 @@ import LobbyProfile from '../components/lobbyProfile'
 import Canvas from '../components/game/canvas'
 import Profile from '../components/game/profile'
 import io from "socket.io-client";
+
 import { useAuth0 } from "@auth0/auth0-react";
 
 
 const Lobby = () => {
     const [numPlayers, setNumPlayers] = useState(1);
     const [isReady, setIsReady] = useState(false);
-    const socket = io("http://localhost:5000");
+    const [userInfo, setUserInfo] = useState(
+      {name: "Guest", 
+      email: null,
+      userid: 'fake_id'});
+    const socket = io("127.0.0.1:5000");
     
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [connectedUsers, setConnectedUsers] = useState([]);
 
-  
-    const userInfo =
-    isAuthenticated ? {
-      name: user.name,
-      email: user.email,
-      user_id: socket.id
-    } : { 
-      name: "Guest", 
-      email: null, 
-      user_id: socket.id
-    }
+    isAuthenticated && setUserInfo({
+        name: user.name,
+        email: user.email,
+        userid: 'fakeid'
+      });
 
-
+    // this is correct
     useEffect(() => {
         socket.connect();
         socket.on('connect', () => {
             setIsReady(true);
-            console.log("connected to socket")
+            console.log("connected to socket: " + socket.id);
+            setUserInfo({name: userInfo.name, email: userInfo.email, userid: socket.id});
+            console.log("user info socket id: " + userInfo.userid);
         });
         return () => {
             socket.disconnect();
@@ -42,32 +43,34 @@ const Lobby = () => {
         };
     }, []);
     
+
     useEffect(() => {
-        if (isAuthenticated) {
-          socket.emit("userConnect", userInfo);
-          console.log("emitted after being authenticated");
-        } else {
-          socket.emit("userConnect", userInfo);
-          console.log("emitted as guest");
-        }
+          if (isAuthenticated) {
+            socket.emit("userConnect", userInfo);
+            console.log("emitted after being authenticated");
+          } else {
+            socket.emit("userConnect", userInfo);
+            console.log("emitted as guest");
+          }
+      
+          socket.on("usersconnected", connectedUser => {
+            setConnectedUsers((prevUsers) => [...prevUsers, connectedUser]);
+            console.log("connected user: ", connectedUser);
+          });
+      
+          
+          socket.on("usersdisconnected", disconnectedUser => {
+            setConnectedUsers((prevUsers) => prevUsers.filter((user) => user.user_id !== disconnectedUser.user_id));
+            console.log("disconnected user: ", disconnectedUser);
+          });
+      
+          return () => {
+            socket.emit("userDisconnect", userInfo);
+            socket.off("usersconnected");
+            socket.off("usersdisconneted");
+          };
+      }, [isAuthenticated, userInfo]);
     
-        socket.on("usersconnected", connectedUser => {
-          setConnectedUsers((prevUsers) => [...prevUsers, connectedUser]);
-          console.log("connected user: ", connectedUser);
-        });
-    
-        
-        socket.on("usersdisconnected", disconnectedUser => {
-          setConnectedUsers((prevUsers) => prevUsers.filter((user) => user.user_id !== disconnectedUser.user_id));
-          console.log("disconnected user: ", disconnectedUser);
-        });
-    
-        return () => {
-          socket.emit("userDisconnect", userInfo);
-          socket.off("usersconnected");
-          socket.off("usersdisconneted");
-        };
-      }, []);
 
     // if (!isReady) {
     //     return 'Loading...';

@@ -14,9 +14,9 @@ const Profile = ({ user, connectedUsers }) => {
         <div>
           <h3>Connected Users:</h3>
           <ul>
-            {connectedUsers.map((connectedUser) => (
+            {/* {connectedUsers.map((connectedUser) => (
               <LobbyProfile key={user.id} user={connectedUser} />
-            ))}
+            ))} */}
           </ul>
         </div>
       </div>

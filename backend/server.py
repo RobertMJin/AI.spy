@@ -58,11 +58,13 @@ def index():
 @socketio.on("userConnect")
 def handle_connect(data):
     emit("usersconnected", data, broadcast=True)
+    print("Users connected: " + data)
 
 #summary: socket io disconnect event
 @socketio.on("userDisconnect")
 def handle_disconnect(data):
     emit("usersdisconnected", data , broadcast=True)
+    print("Users disconnected: " + data)
     
 #summary: initializes the binary classification model already stored.
 @app.route('/initialize', methods=['POST'])
