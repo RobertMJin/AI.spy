@@ -15,7 +15,7 @@ export default function Home() {
                 <h1 className="mt-10 mb-5 font-compactRoundSemibold text-white text-8xl">spy</h1>
             </div>
             <h1 className="text-white font-compactRound text-2xl">Let’s keep it real: Using AI to identify AI-generated art.</h1>
-            <div className="m-10 w-full h-2/4 flex flex-row justify-center items-center">
+            <div className="drop-shadow-xl m-10 w-full h-2/4 flex flex-row justify-center items-center hover:drop-shadow-2xl">
                 <div
                     className="flex flex-col items-center m-3 p-5 basis-1/4 h-full rounded-2xl bg-sky-900 transform transition duration-200 hover:scale-110 cursor-pointer"
                     onClick={() => navigate('/detect')}
@@ -25,7 +25,7 @@ export default function Home() {
                     <img className='h-2/3 mt-4 transform transition duration-200 hover:scale-110' src={upload}></img>
                 </div>
                 <div
-                    className="flex flex-col items-center m-3 p-5 basis-1/3 h-full rounded-2xl bg-sky-200 border-8 border-sky-300 transform transition duration-200 hover:scale-110 cursor-pointer"
+                    className="drop-shadow-xl flex flex-col items-center m-3 p-5 basis-1/3 h-full rounded-2xl bg-sky-200 border-8 border-sky-300 transform transition duration-200 hover:scale-110 cursor-pointer hover:drop-shadow-2xl"
                     onClick={() => navigate('/lobby')}
                 >
                     <h1 className="text-sky-950 text-[2rem] w-full font-compactRound">Play the Game</h1>
@@ -33,7 +33,7 @@ export default function Home() {
                     <img className='h-2/3 mt-4 transform transition duration-200 hover:scale-110' src={play}></img>
                 </div>
                 <div
-                    className="flex flex-col items-center m-3 p-5 basis-1/4 h-full rounded-2xl bg-sky-900 transform transition duration-200 hover:scale-110 cursor-pointer"
+                    className="drop-shadow-xl flex flex-col items-center m-3 p-5 basis-1/4 h-full rounded-2xl bg-sky-900 transform transition duration-200 hover:scale-110 cursor-pointer hover:drop-shadow=2xl"
                     onClick={() => navigate('/report')}
                 >
                     <h1 className="text-white text-[2rem] w-full font-arial font-compactRound">Report a Work</h1>
