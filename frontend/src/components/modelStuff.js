@@ -9,7 +9,7 @@ const modelInitializer = (LayoutComponent) => {
         };
 
         componentDidMount() {
-            this.loadData();
+            this.loadInitialModel();
         }
     
         reloadModel = async () => {

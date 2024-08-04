@@ -1,9 +1,9 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import play from './..\\assets\\Play.png'
-import upload from './..\\assets\\XeZMLO.tif.png'
-import report from './..\\assets\\Group 23.png'
-import eyes from './..\\assets\\Group 9.png'
+import play from './../assets/Play.png'
+import upload from './../assets/XeZMLO.tif.png'
+import report from './../assets/Group 23.png'
+import eyes from './../assets/Group 9.png'
 
 export default function Home() {
     const navigate = useNavigate();

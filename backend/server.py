@@ -12,6 +12,7 @@ import cv2                  #opencv computer vision stuff
 import imghdr               #determines the type of image
 from matplotlib import pyplot as plt
 from keras import Sequential, layers, metrics, models
+from dotenv import load_dotenv
 
 #--------------------------------------------------------COMMANDS FOR WINDOWS
 #deactivate to exit env
@@ -25,7 +26,7 @@ from keras import Sequential, layers, metrics, models
 app = Flask(__name__)
 
 model = None
-data_dir = '.\\modelbase\\data'
+data_dir = './modelbase/data'
 image_size = (256, 256)
 
 CORS(app)
@@ -33,7 +34,9 @@ app.config['SECRET_KEY'] = 'Key'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 #establishing mongodb connection
-mongo_client = MongoClient('mongodb://localhost:27017/')    #default connection string, shouldn't change
+load_dotenv()
+mongodb_uri = os.getenv('MONGO_URI')
+mongo_client = MongoClient(mongodb_uri)
 db = mongo_client['Images'] #replace with database name
 collectionAi = db['aiImages']   #replace with collection name, mongodb's equivalent of a table
 collectionReal = db['realImages'] 

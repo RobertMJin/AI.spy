@@ -50,7 +50,7 @@ function App() {
             element={<Lobby />} />
         </Routes>
       </Router>
-      {/* <ModelData /> */}
+      <ModelData />
     </div>
   );
 }

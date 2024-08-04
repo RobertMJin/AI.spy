@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useRef } from "react";
+import axios from "axios";
 
 import arrow from '../assets/upload.png'
 
@@ -8,6 +9,19 @@ export default function Detect() {
     const [ uploadStyle, setUploadStyle ] = useState("text-slate-900 bg-slate-200 m-10 rounded-2xl border-cyan-900 border-[1rem] m-5 w-2/4 h-2/4 flex flex-col justify-items-center items-center cursor-pointer hover:scale-110");
     const [ image, setImage ] = useState(null);
     const hiddenInput = useRef(null);
+
+    const predict = async (e) => {
+        if (image != null) {
+            try {
+                var form = new FormData();
+                form.append("image", image);
+                const response = await axios.post('http://localhost:5000/predict', FormData);
+                console.log(response);
+            } catch(error) {
+                console.error('Error predicting data: ' + error);
+            }
+        }
+    }
 
     return (
         <div
@@ -46,7 +60,7 @@ export default function Detect() {
                 class={image ? "drop-shadow-xl hover:drop-shadow-2xl font-compactRound m-5 text-black text-4xl w-1/4 h-20 bg-blue-200 p-4 rounded hover:cursor-pointer hover:scale-110" :
                     "drop-shadow-xl hover:drop-shadow-2xl font-compactRound m-5 text-black text-4xl w-1/4 h-20 bg-blue-200 p-4 mr-3 rounded"
                 }
-                onClick={() => setImage(null)}
+                onClick={predict()}>
             >Check Origin</div>
         </div>
     )
