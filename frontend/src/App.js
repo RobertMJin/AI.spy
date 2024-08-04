@@ -2,6 +2,8 @@ import './App.css';
 import util from './components/modelStuff.js'
 import Navbar from './components/navbar/navbar.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from 'react';
 
 
 import Profile from './components/game/profile.js'
@@ -15,11 +17,20 @@ const {modelInitializer, ModelDisplay} = util;
 
 const ModelData = util.modelInitializer(ModelDisplay)
 
+const Test = () => {
+  const { isLoading, isAuthenticated, error, user } = useAuth0();
+  useEffect(() => {
+    if (isLoading) return;
+    console.log(isAuthenticated, user, error);
+  }, [isLoading, isAuthenticated, user, error]);
+  return null;
+}
 
 function App() {
   return (
     <div className="App">
       <Router>
+        <Test/>
         <Navbar />
         <Routes>
           <Route
