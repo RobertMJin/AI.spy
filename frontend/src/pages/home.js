@@ -3,12 +3,17 @@ import { useNavigate } from 'react-router-dom'
 import play from './..\\assets\\Play.png'
 import upload from './..\\assets\\XeZMLO.tif.png'
 import report from './..\\assets\\Group 23.png'
+import eyes from './..\\assets\\Group 9.png'
 
 export default function Home() {
     const navigate = useNavigate();
     return (
         <div className="w-full h-screen bg-gradient-to-b from-black to-cyan-900 flex flex-col justify-items-center items-center">
-            <h1 className="mt-10 mb-5 font-compactRound text-white text-8xl">AI.spy</h1>
+            <div className='flex flex-row items-end'>
+                <h1 className="mt-10 mb-3 font-compactRound text-white text-9xl">AI</h1>
+                <img src={eyes} className='mt-10 mb-7 mr-1'/>
+                <h1 className="mt-10 mb-5 font-compactRoundSemibold text-white text-8xl">spy</h1>
+            </div>
             <h1 className="text-white font-compactRound text-2xl">Let’s keep it real: Using AI to identify AI-generated art.</h1>
             <div className="m-10 w-full h-2/4 flex flex-row justify-center items-center">
                 <div
