@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useRef } from "react";
 
-import arrow from '../upload.png'
+import arrow from '../assets/upload.png'
 
 export default function Detect() {
     const [ image, setImage ] = useState(null);
