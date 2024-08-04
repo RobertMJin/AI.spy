@@ -68,7 +68,7 @@ const Canvas = ({canvasSize}) => {
                 onMouseMove={draw}
             />
             <canvas 
-                className={`w-[${canvasSize}px] h-[${canvasSize}px] border-8 box-border border-black rounded-[50px] bg-gray-100`}
+                className={`w-[${canvasSize}px] h-[${canvasSize}px] border-8 box-border border-sky-200 rounded-[50px] bg-white`}
                 ref={canvasRef}
             />
             <div className='flex'>

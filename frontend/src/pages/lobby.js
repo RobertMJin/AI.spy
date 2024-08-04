@@ -79,10 +79,10 @@ const Lobby = () => {
   
     return (
         <div className="flex bg-gray-700">
-            <div className="flex flex-col items-center mx-16 my-8 w-[40vw]">
+            <div className="flex flex-col items-center mx-16 my-32 w-[40vw]">
                 <Profile user={userInfo} connectedUsers={connectedUsers}/>
             </div>
-            <div className="flex flex-col justify-center items-center w-[60vw] mx-16 my-8 p-8">
+            <div className="flex flex-col justify-center items-center w-[60vw] mx-16 my-16 p-8">
                 <Canvas canvasSize={640} />
                 <div className="flex">
                     <button className="m-4 text-white">Invite</button>
