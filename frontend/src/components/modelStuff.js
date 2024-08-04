@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 const modelInitializer = (LayoutComponent) => {
     return class extends React.Component {
@@ -11,12 +12,53 @@ const modelInitializer = (LayoutComponent) => {
             this.loadData();
         }
     
-        loadData = async () => {
+        reloadModel = async () => {
             this.setState(() => ({
                 isLoading: true,
             }));
     
             try {
+
+                const reloadModel = async () => {
+                    try {
+                      const response = await axios.post('http://localhost:5000/retrain'); //i think it was 5000?
+                      console.log('Model retrained:', response.data);
+                    } catch (error) {
+                      console.error('Error initializing model:', error);
+                    }
+                  };
+                
+                //try to initialize model here
+                //fetch request 
+                //once response is gotten
+                this.setState(() => ({
+                    isLoading: false,
+                    items: ['whats up']
+                }))
+            
+            } catch (err) {
+                this.setState(() => ({
+                    isLoading: false
+                }))
+            }
+    
+        }
+
+        loadInitialModel = async () => {
+            this.setState(() => ({
+                isLoading: true,
+            }));
+    
+            try {
+
+                const initializeModel = async () => {
+                    try {
+                      const response = await axios.post('http://localhost:5000/initialize'); //i think it was 5000?
+                      console.log('Model initialized:', response.data);
+                    } catch (error) {
+                      console.error('Error initializing model:', error);
+                    }
+                  };
                 
                 //try to initialize model here
                 //fetch request 
@@ -40,7 +82,8 @@ const modelInitializer = (LayoutComponent) => {
                 <LayoutComponent 
                     isLoading={isLoading}
                     items={items}
-                    loadData={this.loadData}
+                    loadInitialModel={this.loadInitialModel}
+                    reloadModel={this.reloadModel}
                 />
             )
         }
@@ -48,7 +91,7 @@ const modelInitializer = (LayoutComponent) => {
 
 }
 
-const ModelDisplay = ({isLoading, items, loadData}) => {
+const ModelDisplay = ({isLoading, items, loadInitialModel, reloadModel}) => {
     if(isLoading) {
         return <p>Model is being loaded.</p>
     }
@@ -56,7 +99,7 @@ const ModelDisplay = ({isLoading, items, loadData}) => {
     if(!items || items.length === 0){
         return (
             <p>
-                No model data retrieved. Please try again. <button onClick={loadData}>Try again!</button>
+                No model data retrieved. Please try again. <button onClick={loadInitialModel}>Try again!</button>
             </p>
         );
     }
@@ -70,6 +113,7 @@ const ModelDisplay = ({isLoading, items, loadData}) => {
                     </td>
                 </tr>
             ))}
+            <button onClick={reloadModel}>Press to reload the model.</button>
         </table>
     )
 }
@@ -80,5 +124,3 @@ const util = {
 }
 
 export default util;
-
-
